@@ -202,7 +202,7 @@ const getAllProducts = async (reqQuery) => {
   const skip = (pageNumber - 1) * limit;
 
   query.skip(skip).limit(limit);
-  const products = await query.populate('category').exec();
+  const products = await query.populate('category').sort({createdAt: -1}).exec();
 
   const totalPages = Math.ceil(totalProducts / limit);
 

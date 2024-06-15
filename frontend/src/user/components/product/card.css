@@ -1,0 +1,24 @@
+.card-img-top {
+    height: 260px !important;
+    width: 100% !important;
+    object-fit:cover !important;
+    object-position:center !important;
+  }
+
+  @media screen and (min-width: 640px) {
+    .card-img-top {
+        height: 220px !important;
+      }
+  }
+
+  @media screen and (min-width: 768px) {
+    .card-img-top {
+        height: 250px !important;
+      }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .card-img-top {
+        height: 350px !important;
+      }
+  }

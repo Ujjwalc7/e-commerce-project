@@ -1,0 +1,30 @@
+
+.carouselItem{
+    width: 350px;
+    height: 100%;
+    padding: 5px;
+    white-space: wrap;
+}
+.carouselItem p{
+    margin-bottom: 5px;
+}
+
+.carouselItem img{
+    border-radius: 6px;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 400px;
+}
+
+@media screen and (max-width:767px) {
+    .carouselItem{
+        width: 300px;
+    }
+}
+
+@media screen and (max-width:375px) {
+    .carouselItem{
+        width: 291px;
+    }
+}
