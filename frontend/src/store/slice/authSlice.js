@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import signUp from "../../services/user/signUp";
-// import login from "../../services/user/login";
+import signUp from "../../store/services/auth/signup";
+import login from "../../store/services/auth/login";
+import getUserDetails from "../services/auth/getUserDetails";
+import { getUserCartThunk } from "./cartSlice";
 // import getUserById from "../../services/user/getUserById";
 // import updateUserProfile from "../../services/user/updateUserProfile";
 
@@ -13,16 +15,20 @@ export const signUpThunk = createAsyncThunk(
 )
 
 export const loginThunk = createAsyncThunk(
-    'auth/loginThunk',async(body)=>{
+    'auth/loginThunk',async(body, {dispatch})=>{
         const resp = await login(body);
+        if(resp){
+            dispatch(getUserByJwtThunk(resp));
+        }
         return resp;
     }
 )
 
-export const getUserByIdThunk = createAsyncThunk(
-    'auth/getUserByIdThunk',async({userId, jwt})=>{
-        const resp = await getUserById(userId, jwt);
-        return resp;
+export const getUserByJwtThunk = createAsyncThunk(
+    'auth/getUserByIdThunk',async(jwt, {dispatch})=>{
+        const resp = await getUserDetails(jwt);
+        dispatch(getUserCartThunk(jwt));
+        return {user:resp.user, jwt: jwt};
     }
 )
 
@@ -35,10 +41,10 @@ export const updateProfileDetailsThunk = createAsyncThunk(
 )
 
 const initialState = {
-    status : false,
-    LoggedInUser: null,
-    userDetails: null,
+    isAuthenticated: false,
+    user: null,
     error: null,
+    token: null,
     loading: false,
 }
 
@@ -49,16 +55,16 @@ const authSlice = createSlice({
     reducers:{
         setUser: (state, action)=>{
             state.loading = false;
-            state.LoggedInUser = action.payload;
+            state.user = action.payload;
             state.error = null;
-            state.status = true;
+            state.isAuthenticated = true;
         },
         logout: (state)=>{
             state.loading = false;
-            state.LoggedInUser = null;
-            state.userDetails = null;
+            state.user = null;
+            state.token = null;
             state.error = null;
-            state.status = false;
+            state.isAuthenticated = false;
             console.log('logout');
         },
     },
@@ -67,47 +73,53 @@ const authSlice = createSlice({
         .addCase(signUpThunk.pending,(state)=>{
             state.loading = true;
             state.error = null;
-            state.status = false;
+            state.isAuthenticated = false;
         })
         .addCase(signUpThunk.fulfilled,(state, action)=>{
             state.loading = false;
-            state.LoggedInUser = action.payload;
+            // state.user = action.payload;
             state.error = null;
-            state.status = true;
+            state.isAuthenticated = true;
         })
         .addCase(signUpThunk.rejected,(state, action)=>{
             state.loading = false;
-            state.status = false;
+            state.isAuthenticated = false;
             state.error = action.error.message;
         })
         .addCase(loginThunk.pending,(state)=>{
             state.loading = true;
             state.error = null;
-            state.status = false;
+            state.isAuthenticated = false;
         })
         .addCase(loginThunk.fulfilled,(state, action)=>{
             state.loading = false;
             state.error = null;
-            state.LoggedInUser = action.payload;
-            state.status = true;
+            state.token = action.payload;
+            state.isAuthenticated = false;
         })
         .addCase(loginThunk.rejected,(state, action)=>{
             state.loading = false;
             state.error = action.error.message;
-            state.status = false;
+            state.isAuthenticated = false;
         })
-        .addCase(getUserByIdThunk.pending,(state)=>{
+        .addCase(getUserByJwtThunk.pending,(state)=>{
             state.loading = true;
             state.error = null;
+            state.isAuthenticated = false;
         })
-        .addCase(getUserByIdThunk.fulfilled,(state, action)=>{
+        .addCase(getUserByJwtThunk.fulfilled,(state, action)=>{
             state.loading = false;
             state.error = null;
-            state.userDetails = action.payload;
+            state.user = action.payload.user;
+            if(!state.token){
+                state.token = action.payload.jwt;
+            }
+            state.isAuthenticated = true;
         })
-        .addCase(getUserByIdThunk.rejected,(state, action)=>{
+        .addCase(getUserByJwtThunk.rejected,(state, action)=>{
             state.loading = false;
             state.error = action.error.message;
+            state.isAuthenticated = false;
         })
         .addCase(updateProfileDetailsThunk.pending,(state)=>{
             state.loading = true;
@@ -116,8 +128,7 @@ const authSlice = createSlice({
         .addCase(updateProfileDetailsThunk.fulfilled,(state, action)=>{
             state.loading = false;
             state.error = null;
-            state.LoggedInUser = action.payload;
-            state.userDetails = action.payload;
+            state.user = action.payload;
         })
         .addCase(updateProfileDetailsThunk.rejected,(state, action)=>{
             state.loading = false;
@@ -129,4 +140,4 @@ const authSlice = createSlice({
 
 export const { setUser, logout } = authSlice.actions;
 
-export default  authSlice.reducer
+export default  authSlice.reducer 

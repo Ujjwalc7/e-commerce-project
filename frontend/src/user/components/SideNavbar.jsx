@@ -33,10 +33,10 @@ const SideNavbar = ( {open, handleSidebar}) => {
         <div className="flex flex-col gap-3 px-6">
           <Link to={"/"}>Home</Link>
           <Link to={"/collection/shirts"}>Shirts</Link>
-          <Link to={"/collection/t-shirts"}>T-shirts</Link>
+          <Link to={"/collection/tshirts"}>T-shirts</Link>
           <Link to={"/collection/bottoms"}>Bottoms</Link>
           <Link to={"/collection/shorts"}>Shorts</Link>
-          <Link to={"/collection/jackets"}>Jackets</Link>
+          <Link to={"/collection/winter wear"}>Jackets</Link>
         </div>
         <div className="flex gap-4">
         <button className="bg-black text-white rounded-lg px-4 active:opacity-70 py-1">

@@ -1,8 +1,6 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-
-const ItemCard = ({ item }) => {
+const OrderItemCard = ({item}) => {
   return (
-      <div
+    <div
         className="flex items-start gap-3 border-y py-4 w-full text-sm lg:text-base"
       >
         <div
@@ -26,10 +24,7 @@ const ItemCard = ({ item }) => {
             Quantity: {item?.quantity}
           </p>
         </div>
-        <div>
-              <DeleteIcon sx={{width:'22px', marginRight:'10px'}} className='cursor-pointer'/>
-        </div>
       </div>
-  );
-};
-export default ItemCard;
+  )
+}
+export default OrderItemCard

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import Banner from "../../../admin/components/banner/Banner";
+import Banner from "../../components/banner/Banner";
 import './style.css';
 import Carousel from "../../components/carousel/Carousel";
 import { useDispatch, useSelector } from "react-redux";
