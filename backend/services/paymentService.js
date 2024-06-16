@@ -19,7 +19,7 @@ const createPaymentLink = async (orderId) => {
                 email: true,
             },
             reminder_enable: true,
-            callback_url:  `http://localhost:5173/checkout/step/4?orderId=${orderId}`,
+            callback_url: `http://localhost:5173/payment/success?orderId=${orderId}`,
             callback_method: 'get',
         }
 

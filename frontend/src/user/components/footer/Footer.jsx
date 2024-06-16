@@ -19,7 +19,7 @@ const Footer = () => {
                 <input type="email" className="border-b border-black/35 py-1 px-2 outline-none" name="email" placeholder="Enter your email" />
                 <p className="cursor-pointer border-b border-black/35">Subscribe</p>
                 </div>
-            <p>Sign up now and be the first to know about exclusive offers, latest fashion trends & style tips!</p>
+            <p className="px-4">Sign up now and be the first to know about exclusive offers, latest fashion trends & style tips!</p>
             </div>
           <div className="w-full flex gap-5 md:gap-10 justify-center" >
             {footerLinks.map((item)=>{

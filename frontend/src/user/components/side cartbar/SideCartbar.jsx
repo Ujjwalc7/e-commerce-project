@@ -20,19 +20,18 @@ const objk = {
 }
 
 const SideCartbar = ({handleCartbar, openCartbar}) => {
+  const cartItems = useSelector(state=>state.cart.cartItems);
   const cart = useSelector(state=>state.cart.cart);
+
   return (
     <div className={`flex flex-col justify-between z-[200] px-2 py-3  border gap-5 h-[100vh] absolute top-0 bg-white border-r duration-500 transition-all ${openCartbar ? ' right-0' : ' -right-[500px]'}`}>
         <div className="absolute top-2 left-2 bg-white z-[200]" onClick={handleCartbar}>
         <CloseIcon/>
         </div>
         <div className="w-full h-[470px] overflow-y-scroll relative hideScrollBar flex-1 mt-10">
-          <ItemCard item={objk}/>
-          <ItemCard item={objk}/>
-          <ItemCard item={objk}/>
-          <ItemCard item={objk}/>
-          <ItemCard item={objk}/>
-
+          {cartItems?.length > 0 && cartItems.map(item => (
+            <ItemCard item={item} key={item._id}/>
+          ))}
         </div>
           <div className="w-full h-[175px] bg-white  pt-3 border-t bottom-0 left-0 px-2">
             <div className="flex justify-between">
@@ -41,9 +40,15 @@ const SideCartbar = ({handleCartbar, openCartbar}) => {
             </div>
             <div className="flex flex-col gap-5 mt-3">
               <p className="text-center">Shipping, taxes, and discount codes calculated at checkout.</p>
-              <Link to={'/checkout/step/0'} className="w-full bg-black text-white text-center py-2 active:opacity-70">
+              {cartItems?.length > 0 ?(<Link to={'/checkout/step/0'} className="w-full bg-black text-white text-center py-2 active:opacity-70">
                 PROCEED TO CHECKOUT
-              </Link>
+              </Link>)
+              :
+              (
+                <button onClick={handleCartbar} className="w-full bg-black text-white text-center py-2 active:opacity-70">
+                PROCEED TO CHECKOUT
+              </button>
+              )}
             </div>
           </div>
         {/* <ItemCard/> */}

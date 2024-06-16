@@ -14,8 +14,8 @@ const removeCartItem = async(req, res) => {
     const user = req.user; 
     const cartItemsIds = req.body;
     try {
-        const removedCartItem = await cartService.removeCartItem(user._id, cartItemsIds);
-        return res.status(200).json({message:"cart item removed successfully"});
+        const updatedCart = await cartService.removeCartItem(user._id, cartItemsIds);
+        return res.status(200).json(updatedCart);
     } catch (error) {
         return res.status(500).json({error});
     }

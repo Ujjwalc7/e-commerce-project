@@ -1,5 +1,6 @@
 const CartItem = require("../models/cartItem_model");
 const userService = require("../services/user_service");
+const { findUserCart } = require("./cart_service");
 
 const updateCartItem = async (userId, cartItemId, cartItemData) => {
   try {
@@ -32,6 +33,7 @@ const removeCartItem = async (userId, cartItemsIds) => {
       const user = await userService.findUserById(userId);
       if (user._id.toString() === cartItem.userId.toString()) {
         await CartItem.findByIdAndDelete(cartItem);
+        return await findUserCart(userId);
       } else {
         throw new Error("you cannot remove this item");
       }

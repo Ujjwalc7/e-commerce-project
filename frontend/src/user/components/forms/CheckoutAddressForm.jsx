@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddressCard from "../DeliveryAddressCard";
 import {
   FormControl,
@@ -9,8 +9,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createOrderThunk } from "../../../store/slice/orderSlice";
+import { deleteCartItemThunk } from "../../../store/slice/cartSlice";
 
 const CheckoutAddressForm = () => {
+  const cartItems = useSelector(state=>state.cart.cartItems);
   const userAddress = useSelector((state) => state.auth.user.address);
   const [data, setData] = useState({
     firstName: "",
@@ -22,10 +25,18 @@ const CheckoutAddressForm = () => {
     zipCode: "",
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem('jwt');
+  const cartItemIds = cartItems.map(item=> item._id);
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(data);
-    navigate('/checkout/step/2');
+    dispatch(createOrderThunk({body: data, jwt: jwt, navigate: navigate}));
+    if(cartItemIds.length > 0){
+      dispatch(deleteCartItemThunk({body: cartItemIds, jwt: jwt}));
+    }
   };
   return (
     <div className="flex gap-10 max-lg:flex-col">

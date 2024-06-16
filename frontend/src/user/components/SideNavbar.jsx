@@ -1,9 +1,14 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import logo from "/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../store/slice/authSlice";
 
 
 const SideNavbar = ( {open, handleSidebar}) => {
+  const loggedIn = useSelector(state=>state.auth.isAuthenticated);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   return (
     <nav className={`flex-col z-[200] px-2 py-3 gap-5 h-[100vh] absolute top-0 bg-white border-r transition-all ${open ? 'flex left-0' : ' -left-[500px]'}`}>
         <Link to={'/'} className="rounded-md overflow-hidden cursor-pointer w-[100px] absolute left-3 top-3" >
@@ -39,12 +44,17 @@ const SideNavbar = ( {open, handleSidebar}) => {
           <Link to={"/collection/winter wear"}>Jackets</Link>
         </div>
         <div className="flex gap-4">
-        <button className="bg-black text-white rounded-lg px-4 active:opacity-70 py-1">
+        {!loggedIn ? (<button className="bg-black text-white rounded-lg px-4 active:opacity-70 py-1" onClick={()=>navigate('/login')}>
           Login
-        </button>
-        <button className="bg-black text-white rounded-lg px-4 active:opacity-70 py-1">
+        </button>)
+        :
+        (<button className="bg-black text-white rounded-lg px-4 active:opacity-70 py-1" onClick={()=>{
+          localStorage.removeItem('jwt')
+          dispatch(logout())
+          handleSidebar()}
+          }>
           Logout
-        </button>
+        </button>)}
       </div>
 
     </nav>

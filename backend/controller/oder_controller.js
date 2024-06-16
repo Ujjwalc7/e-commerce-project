@@ -4,7 +4,7 @@ const createOrder = async (req, res) => {
     const user = req.user;
     try {
         const createdOrder = await orderService.createOrder(user, req.body);
-        return res.status(201).json({createdOrder});
+        return res.status(201).json(createdOrder);
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error});

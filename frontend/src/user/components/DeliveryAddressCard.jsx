@@ -1,22 +1,20 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createOrderThunk } from "../../store/slice/orderSlice";
+import { deleteCartItemThunk } from "../../store/slice/cartSlice";
 
 const AddressCard = ({ address }) => {
-
-    const [data, setData] = useState({
-        firstName: address.firstName,
-        lastName: address.lastName,
-        address: address.address,
-        city: address.city,
-        country: address.country,
-        phone: address.phone,
-        zipCode: address.zipCode,
-      });
+      const cartItems = useSelector(state=>state.cart.cartItems);
       const navigate= useNavigate();
+      const dispatch = useDispatch();
+      const jwt = localStorage.getItem('jwt');
 
-    const handleForm=(id)=>{
-        console.log({data, addressId:id});
-        navigate('/checkout/step/2');
+      const cartItemIds = cartItems.map(item=> item._id)
+
+    const handleForm=()=>{
+        dispatch(createOrderThunk({body: address, jwt: jwt, navigate: navigate}));
+        dispatch(deleteCartItemThunk({body: cartItemIds, jwt: jwt}));
       }
 
     return (
@@ -34,7 +32,7 @@ const AddressCard = ({ address }) => {
           </p>
         </div>
         <div className="mt-4">
-            <button className="bg-black text-white px-2 py-1 " onClick={()=>handleForm(address._id)}>Deliver here</button>
+            <button className="bg-black text-white px-2 py-1 " onClick={handleForm}>Deliver here</button>
         </div>
       </div>
     );

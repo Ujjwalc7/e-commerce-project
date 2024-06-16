@@ -92,19 +92,6 @@ export default function HorizontalLinearStepper() {
             ):(
               <OrderSummary/>
             ))}
-            {step == 4 &&
-            (!loggedIn ? (
-              <div className="w-full h-[50vh]">
-                  <button
-                    onClick={() => navigate("/login")}
-                    className="flex items-center bg-blue-600 text-white px-3 py-2 rounded active:opacity-80"
-                  >
-                    Login
-                  </button>
-                </div>
-            ):(
-              <PaymentSuccess/>
-            ))}
           </div>
         </React.Fragment>
       )}

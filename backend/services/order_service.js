@@ -10,7 +10,7 @@ const createOrder = async (user, shipAddress) => {
     let existAddress = await Address.findById(shipAddress._id);
     address = existAddress;
   } else {
-    address = new Address(shipAddress.formData);
+    address = new Address(shipAddress);
     address.user = user._id;
     const addressCreated = await address.save();
 

@@ -13,7 +13,8 @@ import { clearCart } from "../../../store/slice/cartSlice";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openCartbar, setOpenCartbar] = useState(false);
-  const loggedIn = useSelector(state=>state.auth.isAuthenticated)
+  const loggedIn = useSelector(state=>state.auth.isAuthenticated);
+  const cartItems = useSelector(state=>state.cart.cartItems);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleSidebar = () => {
@@ -73,9 +74,12 @@ const Navbar = () => {
             </button>
           </form>
         </div>
-        <div className="flex gap-4 max-[1100px]:hidden items-center">
-          <div className="cursor-pointer" onClick={handleCartbar}>
+        <div className="flex gap-3 max-[1100px]:hidden items-center">
+          <div className="cursor-pointer relative h-[30px] text-center mr-3" onClick={handleCartbar}>
           <ShoppingCartIcon/>
+          {cartItems?.length > 0 && <span className="absolute -top-3 -right-3 text-white bg-red-400 rounded-full flex justify-center items-center w-[20px] h-[20px] font-semibold">
+            {cartItems?.length}
+          </span>}
           </div>
           {!loggedIn ? (<Link to={'/login'} className="bg-black text-white rounded-lg px-4 active:opacity-70 py-1">
             Login

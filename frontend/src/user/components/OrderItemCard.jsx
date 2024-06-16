@@ -1,7 +1,7 @@
 const OrderItemCard = ({item}) => {
   return (
     <div
-        className="flex items-start gap-3 border-y py-4 w-full text-sm lg:text-base"
+        className="flex items-start gap-3 border py-4 w-full text-sm lg:text-base"
       >
         <div
           className="max-w-[100px] w-full h-full max-h-[130px] cursor-pointer"

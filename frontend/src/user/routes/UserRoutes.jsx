@@ -6,6 +6,7 @@ import Checkout from "../pages/checkout/Checkout"
 import AuthLayout from "../components/AuthLayout"
 import Order from "../pages/order/Order"
 import OrderDetails from "../pages/order/OrderDetails"
+import PaymentSuccess from "../components/payment success/PaymentSuccess"
 
 const UserRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const UserRoutes = () => {
         <Route path="/order" element={<Order/>}/>
         <Route path="/order/details/id" element={<OrderDetails/>}/>
         <Route path="/checkout/step/:step" element={<AuthLayout authentication={true}><Checkout/></AuthLayout>}/>
+        <Route path="/payment/success" element={<PaymentSuccess/>}/>
     </Routes>
   )
 }

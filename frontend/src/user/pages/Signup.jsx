@@ -68,7 +68,6 @@ export default function Signup() {
       setFormValues({...formValues, [name]:{...formValues[name], value: value, error: value !== '' ? !phoneRegex.test(value) : false}});
       return;
     }
-    console.log(value);
     setFormValues({...formValues, [name]:{...formValues[name], value: value}});
   }
   const handleSubmit = async(event) => {
@@ -83,6 +82,7 @@ export default function Signup() {
       password: formValues.password.value,
       phoneNumber: formValues.phoneNumber.value,
     };
+    // console.log(body);
     dispatch(signUpThunk(body));
   };
   

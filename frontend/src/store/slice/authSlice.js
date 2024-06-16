@@ -8,8 +8,11 @@ import { getUserCartThunk } from "./cartSlice";
 
 
 export const signUpThunk = createAsyncThunk(
-    'auth/signUpThunk',async(body)=>{
+    'auth/signUpThunk',async(body,{dispatch})=>{
         const resp = await signUp(body);
+        if(resp){
+            dispatch(getUserByJwtThunk(resp));
+        }
         return resp;
     }
 )
@@ -77,7 +80,7 @@ const authSlice = createSlice({
         })
         .addCase(signUpThunk.fulfilled,(state, action)=>{
             state.loading = false;
-            // state.user = action.payload;
+            state.token = action.payload;
             state.error = null;
             state.isAuthenticated = true;
         })
